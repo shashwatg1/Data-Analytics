@@ -1,4 +1,7 @@
-# RProgramming
-RPrograming Practice
+# Data Analytics
 
-This Repo contains my R Programming Practise files.
+* R Programing Practice
+
+* Some Projects on RProgramming included in the RProgramming folder
+
+* My attempt of the Titanic Problem
