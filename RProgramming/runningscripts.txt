@@ -1,0 +1,6 @@
+1. go to current directory
+2. save script in the directory
+3. run "dir()" to check if it is present
+4. run "source("code.R")"
+5. run "ls()" this will list the functions etc in the working diretory now
+6. to run a functions just type the function : "name(params)"
