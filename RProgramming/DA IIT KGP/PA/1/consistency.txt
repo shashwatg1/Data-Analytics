@@ -1,0 +1,1 @@
+Data is more consistent in Data2.csv as compared to Data1.csv as the standard deviation of the scores (subject-wise) is lesser in Data2.csv
