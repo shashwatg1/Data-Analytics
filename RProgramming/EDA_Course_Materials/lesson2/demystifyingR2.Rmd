@@ -8,6 +8,7 @@ Don't worry about this for now. We'll address it at the end of this file.
 1. Run the following command to see what it does.
 ```{r}
 summary(mtcars)
+data(mtcars)
 ```
 
 If you know about quantiles, then the output should look familiar.
@@ -24,19 +25,19 @@ Subset the data so that you create a new data frame that contains
 cars that get 23 or more mpg (miles per gallon). Save it to a new data
 frame called efficient.
 ```{r}
-
+efficient <- subset(mtcars, mpg >= 23)
 ```
 
 3. How many cars get more than 23 mpg? Use one of the commands you
 learned in the demystifying.R to answer this question.
 ```{r}
-
+dim(efficient)
 ```
 
 4. We can also use logical operators to find out which car(s) get greater
 than 30 miles per gallon (mpg) and have more than 100 raw horsepower.
 ```{r}
-subset(mtcars, mpg > 30 & hp > 100)
+subset(mtcars, mpg >= 30 | hp < 60)
 ```
 
 There's only one car that gets more than 30 mpg and 100 hp.
