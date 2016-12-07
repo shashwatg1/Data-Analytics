@@ -21,3 +21,19 @@ x= data.frame(foo=10:13, bar=c(T,T,F,F))
 
 nrow(x) #[1] 4
 ncol(x) #[1] 2
+
+country = c("Brazil", "India", "China")
+LifeExp = c(1,2,3)
+CountryData = data.frame(country,LifeExp)
+
+#To add a column
+CountryData$Population = c(10,12,13)
+
+#To add rows
+country = c("Usa","Canada")
+LifeExp = c(4,5)
+Population = c(14,15)
+	#The names must match
+NewCountryData = data.frame(country,LifeExp,Population)
+
+AllData = rbind(CountryData,NewCountryData)
