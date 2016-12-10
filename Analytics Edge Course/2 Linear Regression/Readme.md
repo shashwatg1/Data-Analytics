@@ -17,6 +17,3 @@ R^2 = 1 means perfect model
 Uses multiple variables to improve prediction. But dont use all variables as it would need more data and may cause overfitting despite high R^2 value
 
 model: y = a0 + a1 * x1 + a2 * x2 +...+ an * xn + e<br>
-
-
-# Four part Assignment
