@@ -1,8 +1,3 @@
-# Unit 3, Modeling the Expert
-
-
-# Video 4
-
 # Read in dataset
 quality = read.csv("quality.csv")
 
@@ -12,16 +7,17 @@ str(quality)
 # Table outcome
 table(quality$PoorCare)
 
-# Baseline accuracy
-98/131
+# Baseline accuracy -> predict all good care
+98/131 # about 75%
 
 # Install and load caTools package
-install.packages("caTools")
+# install.packages("caTools")
 library(caTools)
 
-# Randomly split data
+# Randomly split data into training and testing set
 set.seed(88)
 split = sample.split(quality$PoorCare, SplitRatio = 0.75)
+# makes a 3/4 split into Train and Test sets. It maintains the ratio of 1 and 0 in poorcare in each of the sets aswell
 split
 
 # Create training and testing sets
@@ -30,25 +26,30 @@ qualityTest = subset(quality, split == FALSE)
 
 # Logistic Regression Model
 QualityLog = glm(PoorCare ~ OfficeVisits + Narcotics, data=qualityTrain, family=binomial)
+#glm -> generalised linear model, family = binomial makes it logistic regression
 summary(QualityLog)
+# AIC is the measure of the model
 
 # Make predictions on training set
 predictTrain = predict(QualityLog, type="response")
+# type = response tells the predict function to return probabilities
 
 # Analyze predictions
 summary(predictTrain)
 tapply(predictTrain, qualityTrain$PoorCare, mean)
 
-
-
-# Video 5
-
-# Confusion matrix for threshold of 0.5
+# So the output is a probability but we want a prediction. Thus we threshold and predict from the prob. value
+# Confusion matrix or Classification matrix, for threshold of 0.5
 table(qualityTrain$PoorCare, predictTrain > 0.5)
+# predicted :  0   1 
+# Actual = 0  TN  FP
+# Actual = 1  FN  TP
 
-# Sensitivity and specificity
-10/25
-70/74
+# Sensitivity or true positive rate, the recall, or probability of detection = TP/(TP+FN)
+# Specificity or true negative rate = TN/(TN+FP)
+
+10/25 # Sensitivity
+70/74 # Specificity
 
 # Confusion matrix for threshold of 0.7
 table(qualityTrain$PoorCare, predictTrain > 0.7)
@@ -64,16 +65,19 @@ table(qualityTrain$PoorCare, predictTrain > 0.2)
 16/25
 54/74
 
+# Incresing threshold, decreases sensitivity and increases specificity
+# How to decide the correct threshold? ROC helps with that
 
 
-# Video 6
+# ROC -> Receiver Operator Characteristic
+# ROC Curve is Sensitivity Vs (1-Specificity) for all threshold values from 0 to 1
 
 # Install and load ROCR package
-install.packages("ROCR")
+# install.packages("ROCR")
 library(ROCR)
 
 # Prediction function
-ROCRpred = prediction(predictTrain, qualityTrain$PoorCare)
+ROCRpred = prediction(predictTrain, qualityTrain$PoorCare) # predicted and true values are passed
 
 # Performance function
 ROCRperf = performance(ROCRpred, "tpr", "fpr")
