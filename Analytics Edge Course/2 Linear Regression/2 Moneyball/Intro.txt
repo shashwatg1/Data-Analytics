@@ -1,0 +1,28 @@
+Intro:
+
+We are talking about a certain team who uses analytics to make it to the playoffs.
+Moneyball tells the story of this team in the year 2002 particularly
+Can they win?
+
+
+1. First Question:
+How many wins are needed in regular season to make it to the playoffs?
+
+This came out to be 95 from the data of 1996-2001 of all teams who did and did not make it to playoffs with the respective number of wins
+
+Now we know how many wins are needed, we move on to how to win
+
+
+2. Second Question:
+How to win the game?
+
+To win a game you need to score more runs than your opponent.
+It was calculated that a team need 135 more runs scored than runs allowed to get 95 wins.
+
+
+3. Third Question:
+How to score more runs?
+
+They claimed OBG(On Base Percentage) ang SLG(Slugging Percentage) were most important and BA(Batting Average) was overvalued
+
+Now for the year 2002, past stats are used to make predictions
