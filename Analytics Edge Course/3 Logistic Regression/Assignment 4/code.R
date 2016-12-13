@@ -1,37 +1,33 @@
 #Reading Data and Analysing
-dataset = read.csv('parole.csv')
-str(dataset)
-table(dataset$violator)
+baseball = read.csv('baseball.csv')
+str(baseball)
+length(table(baseball$Year))
 
-#Converting State and crime to factor as it is not understood correctly by R in the present form
-dataset$state = as.factor(dataset$state)
-dataset$crime = as.factor(dataset$crime)
-str(dataset)
+baseball=subset(baseball,Playoffs == 1)
+table(table(baseball$Year))
 
-#Splitting
-set.seed(144)
-library(caTools)
-split = sample.split(dataset$violator, SplitRatio = 0.7)
-train = subset(dataset, split == TRUE)
-test = subset(dataset, split == FALSE)
+PlayoffTable = table(baseball$Year)
+names(PlayoffTable)
 
+baseball$NumCompetitors = PlayoffTable[as.character(baseball$Year)]
+summary(baseball)
+table(baseball$NumCompetitors)
+
+baseball$WorldSeries = as.numeric(baseball$RankPlayoffs == 1)
+table(baseball$WorldSeries)
+
+
+#Model Checking
+summary(glm(WorldSeries~Year, data=baseball, family="binomial"))
+summary(glm(WorldSeries~RA, data=baseball, family="binomial"))
+summary(glm(WorldSeries~RS, data=baseball, family="binomial"))
 
 #Model 1
-model1 = glm(violator ~ ., data=train, family=binomial)
+model1 = glm(WorldSeries~Year+RA+RankSeason+NumCompetitors, data=baseball, family="binomial")
 summary(model1)
 
+cor(baseball[c('Year', 'RA', 'RankSeason', 'NumCompetitors')])
 
-#Predictions
-predictTest = predict(model1, type="response", newdata=test)
-max(predictTest)
-
-table(test$violator, predictTest > 0.5)
-#Accuracy = 0.8861386
-
-#Baseline Model Analysis, Predict all not Top10
-table(test$violator)
-#Accuracy = 0.8861386
-
-library(ROCR)
-ROCRpred = prediction(predictTest, test$violator)
-as.numeric(performance(ROCRpred, "auc")@y.values)
+#Model with lowest AIC is
+model2 = glm(WorldSeries~NumCompetitors, data=baseball, family="binomial")
+summary(model2)
