@@ -60,7 +60,7 @@ image(flowerMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
 # Now lets work on teh high resolution MRI images of the brain
 
 healthy = read.csv("healthy.csv", header=FALSE)
-healthyMatrix = as.matrix(healthy)
+healthyMatrix = as.matrix(healthy) # considerably larger in resolution
 str(healthyMatrix)
 
 # Plot image
@@ -69,48 +69,50 @@ image(healthyMatrix,axes=FALSE,col=grey(seq(0,1,length=256)))
 # Hierarchial clustering
 healthyVector = as.vector(healthyMatrix)
 # distance = dist(healthyVector, method = "euclidean")
+# We have an error - why?
+str(healthyVector) # Because there are 365636 elements which is too much and R runs out of memory
 
-# We have an error - why? 
-str(healthyVector) # Because there are 365636 elements which is too much
-
+# Thus in such cases we cannot apply Hierarchical clustering and must go to K-means clustering
 
 # K-means clustering Algo
-# Specify number of clusters
+# Specify number of clusters (based on some information known from before)
 k = 5
 
 # Run k-means
 set.seed(1)
-KMC = kmeans(healthyVector, centers = k, iter.max = 1000)
+KMC = kmeans(healthyVector, centers = k, iter.max = 1000) # iter.max is the total iterations. it is fast.
 str(KMC)
+# Cluster vector gives information about the cluster of each data point in the input vector
 
-# Extract clusters
+# Extract clusters of each data point (pixel intensity)
 healthyClusters = KMC$cluster
-KMC$centers[2]
+
+# Centers contains the mean intensity value of each cluster (no need for tapply, lapply, etc)
+KMC$centers
 
 # Plot the image with the clusters
 dim(healthyClusters) = c(nrow(healthyMatrix), ncol(healthyMatrix))
-
 image(healthyClusters, axes = FALSE, col=rainbow(k))
+# Thus we have done a good job again in segmenting
 
 
-
-# Video 6
-
+# Detecting tumors
 # Apply to a test image
- 
 tumor = read.csv("tumor.csv", header=FALSE)
 tumorMatrix = as.matrix(tumor)
 tumorVector = as.vector(tumorMatrix)
 
 # Apply clusters from before to new image, using the flexclust package
-install.packages("flexclust")
+# install.packages("flexclust")
 library(flexclust)
+# This contaings kcca package which stands for k centroids cluster analysis
+# Basically we need to convert the informationg from clustering algo to an object of class kcca
 
 KMC.kcca = as.kcca(KMC, healthyVector)
 tumorClusters = predict(KMC.kcca, newdata = tumorVector)
 
 # Visualize the clusters
 dim(tumorClusters) = c(nrow(tumorMatrix), ncol(tumorMatrix))
-
 image(tumorClusters, axes = FALSE, col=rainbow(k))
 
+# Thus we are able to notice a circular tumor in this new image

@@ -39,6 +39,8 @@ A dendrogram can be used for seeing each step and bifurcation. The height repres
 
 After making the clusters we must check if they are meaningful and if we need more or if we can reduce the clusters.<br>
 
+This method cannot be applied to cases with high number of data points as calculating the pairwise distances takes too much memory<br>
+
 ###K-Means Clustering
 
 * Specify the number of clusters 'k'
@@ -48,3 +50,7 @@ After making the clusters we must check if they are meaningful and if we need mo
 * Recompute cluster centroids and keep repeating till required
 
 Often random assignment initially can be a little risky and hence some prior knowledge of the data might help in the initial assignment. The value of k must also be tried and tested.
+
+This method can be applied to cases with large number of data points unlike hierarchical clustering<br>
+
+Essentially k-means clustering is same as the hierarchical clustering but here the number of clusters is fixed unlike hierarchical where we can select from the dendograms. <br>
