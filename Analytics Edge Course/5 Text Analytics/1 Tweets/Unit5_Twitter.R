@@ -12,7 +12,7 @@ library(tm)
 # install.packages("SnowballC")
 library(SnowballC)
 
-# Create corpus
+# Create corpus, a collection of documents
  corpus = Corpus(VectorSource(tweets$Tweet))
 
 # Look at corpus
