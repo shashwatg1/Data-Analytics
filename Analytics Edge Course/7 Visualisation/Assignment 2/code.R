@@ -1,28 +1,38 @@
-#Market Segmentation for Airlines
-airlines = read.csv('AirlinesCluster.csv')
-summary(airlines)
+# Network Data Visualized
+# Facebook, data nodes and graphs
 
-#We need to normalise
-library(caret)
-preproc = preProcess(airlines) # preprocessing the data
-airlinesNorm = predict(preproc, airlines) # makes mean = 0 and sd = 1
-summary(airlinesNorm)
+edges = read.csv("edges.csv")
+users = read.csv("users.csv") 
+str(edges)
+str(users)
+table(users$locale, users$school)
+table(users$gender, users$school)
 
+library(igraph)
+g = graph.data.frame(edges, FALSE, users)
+plot(g, vertex.size=5, vertex.label=NA)
 
-## Hierarchical clustering
-distances = dist(airlinesNorm, method="euclidean")
-hierClust = hclust(distances, method="ward.D")
-plot(hierClust)
-# choosing 5 clusters
-rect.hclust(hierClust, k = 5, border = "red")
-clusterGroups = cutree(hierClust, k = 5)
-table(clusterGroups)
+# degree gives the connections
+table(degree(g))
 
-# To see the stats of each variable
-lapply(split(airlines, clusterGroups), colMeans)
+# Changiong the size of nodes based on degree
+V(g)$size = degree(g)/2+2
+plot(g, vertex.label=NA)
 
+# colouring based on gender
+V(g)$color = "black"
+V(g)$color[V(g)$gender == "A"] = "red"
+V(g)$color[V(g)$gender == "B"] = "light blue"
+plot(g, vertex.label=NA)
 
-## K-means clustering
-set.seed(88)
-kmeansClust = kmeans(airlinesNorm, centers=5, iter.max=1000)
-table(kmeansClust$cluster)
+# based on school
+V(g)$color = "black"
+V(g)$color[V(g)$school == "A"] = "red"
+V(g)$color[V(g)$school == "AB"] = "light blue"
+plot(g, vertex.label=NA)
+
+# locale based
+V(g)$color = "black"
+V(g)$color[V(g)$locale == "A"] = "red"
+V(g)$color[V(g)$locale == "B"] = "light blue"
+plot(g, vertex.label=NA)

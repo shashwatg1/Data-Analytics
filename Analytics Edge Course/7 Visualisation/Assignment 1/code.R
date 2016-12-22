@@ -1,53 +1,34 @@
-# document clustering with daily kos
-dailykos = read.csv("dailykos.csv")
+# Election predictions visualised
 
-# hierarchical clustering
-kosDist = dist(dailykos, method="euclidean")
-kosHierClust = hclust(kosDist, method="ward.D")
-plot(kosHierClust)
-hierGroups = cutree(kosHierClust, k = 7)
-HierCluster1 = subset(dailykos, hierGroups == 1)
-HierCluster2 = subset(dailykos, hierGroups == 2)
-HierCluster3 = subset(dailykos, hierGroups == 3)
-HierCluster4 = subset(dailykos, hierGroups == 4)
-HierCluster5 = subset(dailykos, hierGroups == 5)
-HierCluster6 = subset(dailykos, hierGroups == 6)
-HierCluster7 = subset(dailykos, hierGroups == 7)
-table(hierGroups)
+library(ggplot2)
+library(ggmap)
+library(maps)
+statesMap = map_data("state")
+table(statesMap$group)
+ggplot(statesMap, aes(x = long, y = lat, group = group)) + geom_polygon(fill = "white", color = "black") 
 
-tail(sort(colMeans(HierCluster1)))
-tail(sort(colMeans(HierCluster2)))
-tail(sort(colMeans(HierCluster3)))
-tail(sort(colMeans(HierCluster4)))
-tail(sort(colMeans(HierCluster5)))
-tail(sort(colMeans(HierCluster6)))
-tail(sort(colMeans(HierCluster7)))
+polling = read.csv('PollingImputed.csv')
+str(polling)
+Train = subset(polling, Year<=2008)
+str(Train)
+# missing observations for Alaska, Delaware, Alabama, Wyoming, and Vermont, so these states will not appear colored in our map. 
+Test = subset(polling, Year==2012)
 
-# k-means clustering
-k=7
-set.seed(1000)
-KmeansCluster = kmeans(dailykos, centers=7)
+# Log reg
+mod2 = glm(Republican~SurveyUSA+DiffCount, data=Train, family="binomial")
+TestPrediction = predict(mod2, newdata=Test, type="response")
+TestPredictionBinary = as.numeric(TestPrediction > 0.5)
+predictionDataFrame = data.frame(TestPrediction, TestPredictionBinary, Test$State) # put all three in a data frame to pass to ggplot
+str(predictionDataFrame)
 
-KmeansCluster1 = subset(dailykos, KmeansCluster$cluster == 1)
-KmeansCluster2 = subset(dailykos, KmeansCluster$cluster == 2)
-KmeansCluster3 = subset(dailykos, KmeansCluster$cluster == 3)
-KmeansCluster4 = subset(dailykos, KmeansCluster$cluster == 4)
-KmeansCluster5 = subset(dailykos, KmeansCluster$cluster == 5)
-KmeansCluster6 = subset(dailykos, KmeansCluster$cluster == 6)
-KmeansCluster7 = subset(dailykos, KmeansCluster$cluster == 7)
-# More advanced approach for splitting
-KmeansCluster = split(dailykos, KmeansCluster$cluster)
-KmeansCluster[[1]] # to access 1st cluster
-nrow(KmeansCluster[[1]]) # number of observations in 1st cluster
+# merge predictionDataframe with mapdata
+predictionDataFrame$region = tolower(predictionDataFrame$Test.State)
+predictionMap = merge(statesMap, predictionDataFrame, by = "region")
+predictionMap = predictionMap[order(predictionMap$order),]
+str(predictionMap)
 
-# What are the most frequent words in each subset
-tail(sort(colMeans(KmeansCluster1)))
-tail(sort(colMeans(KmeansCluster2)))
-tail(sort(colMeans(KmeansCluster3)))
-tail(sort(colMeans(KmeansCluster4)))
-tail(sort(colMeans(KmeansCluster5)))
-tail(sort(colMeans(KmeansCluster6)))
-tail(sort(colMeans(KmeansCluster7)))
+ggplot(predictionMap, aes(x = long, y = lat, group = group, fill = TestPredictionBinary)) + geom_polygon(color = "black")
+# Light blue is republican and dark blue is democratic
 
-# To comapre the two methods
-table(hierGroups, KmeansCluster$cluster)
+# another way
+ggplot(predictionMap, aes(x = long, y = lat, group = group, fill = TestPredictionBinary))+ geom_polygon(color = "black") + scale_fill_gradient(low = "blue", high = "red", guide = "legend", breaks= c(0,1), labels = c("Democrat", "Republican"), name = "Prediction 2012")
