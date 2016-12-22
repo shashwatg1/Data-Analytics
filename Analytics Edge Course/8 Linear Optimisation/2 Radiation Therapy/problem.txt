@@ -1,0 +1,33 @@
+Q 1. 
+Linear optimisation for radiation therapy. Data is collected from CT scans.
+Each structure of brain is discretized into voxels.
+The CT scans tell us the dose each beamlet delivers to each voxel.
+
+Say there are 9 voxels and 6 beamlets
+
+Voxel structure:
+
+b b b
+e e e
+a a a
+m m m
+l l l
+e e e
+t t t
+4 5 6
+| | |
+
+1 2 3 <- beamlet 1
+4 5 6 <- beamlet 2
+7 8 9 <- beamlet 3
+
+say 2,4,7,8 have tumor, 5 is spinal cord and others are healthy.
+
+Minimise the total dose to healthy tissues (spinal + other)
+
+Constraints: tumor voxels must get atleast 7 Gy and spinal cord must get at most 5 Gy
+
+We know the dose each beamlet gives to the tissues at unit intensity
+
+Decision variables : all the intensities for the 6 beamlets
+

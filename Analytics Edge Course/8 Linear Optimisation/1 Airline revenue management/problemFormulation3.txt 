@@ -1,0 +1,10 @@
+Q. We consider connecting flights case. Going from JFK to DFW to LAX, capacity of 166 in each way. They sell discounted seats at 238 and regular price is 617. Now there are three types of tickets with given prices in the spreadsheet.
+
+A. 
+STEP 1: Decisions : Regular seats sold = R1, R2, R3, discounted seats = D1, D2, D3
+
+STEP 2: Objective : Maximise the revenue for the company
+
+STEP 3: Constraints:
+
+Capacity constraints, Non negativity constraints, demand constraints

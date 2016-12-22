@@ -1,0 +1,21 @@
+Q. We consider effects of marketing. Say we forecast that spending 200 will increase demand by 1 either for R or for D.
+
+
+A. 
+Here the seats = 166, demand for R = 100, demand for D = 150 and actual D = 66. The demand for D could fall to as low as 66 without affecting us. Thus increasing demand for D will not help at all and we should look at how increasing demand for R will affect us.
+
+Shadow Price: marginal revenue of increasing demand by 1 unit
+Shadow price is 0 for D in this case.
+
+If demand for R becomes 125 (increased by 25), the new revenue is 86883 whereas the initial revenue was 77408.
+Thus increase is 9475 for 25 units.
+Thus shadow price for R = 9475/25 = 379
+
+Thus this is profitable as spendind 200 earns 379 hence there is a profit. Thus we should invest in marketing Regular fares and increasing R to 166 and make D = 0.
+
+
+Q. We consider effects of using a different aircraft. Say there are 3 aircrafts of different running costs as well as number of seats
+
+
+A. 
+Depending on hours of travel, cost for each can be calulated. Depending on demand and number of seats, revenue can be calculated and hence the profit can be calculated for each. Choose the one with max profit.

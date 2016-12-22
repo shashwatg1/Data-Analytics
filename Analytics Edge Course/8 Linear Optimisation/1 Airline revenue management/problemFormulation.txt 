@@ -1,0 +1,31 @@
+Q. We consider an airlines company with an aircraft of capacity 166. They sell discounted seats at 238 and regular price is 617. How many of each do they sell if say the demand for regular is 100 and discounted is 150?
+
+A. 
+Baseline method is to sell the 100 demand regular seats at regular price of 617. Now that it is exhausted, sell the remaining 66 seats at discount. This approach would maximise the profits for the company.
+
+However due to competition this method is not very feasible and we must optimise.
+
+STEP 1: Decisions : Regular seats sold = R, discounted seats = D
+
+STEP 2: Objective : Maximise the revenue for the company.
+
+STEP 3: Constraints:
+
+0 <= R + D <= 166
+0 <= R <= 100
+0 <= D <= 150
+
+Now maximise, 617R + 238D
+
+This is called a linear optimisation problem and it can be solved on spreadsheet softwares!
+
+Open the file airlineRm.ods and fill in the objective funciton which is 617R + 238D.
+Thus we do =SUMPRODUCT(C5:C6,E5:E6) to make it C5*E5 + C6*E6
+Similarly, fill in the constraints. The formula can be seen in the file itself.
+
+Now select Solver in the tools menu. Fill the objective, maximum, the variables, constraints and hit solve.
+For this simple case, the baseline model is the optimised model and we get R=100 and D=66.
+
+For more complicated scenarios we will observe that we will deviate from this baseline condition.
+
+Such problems can also be visualised by making a graph for R vs D and plotting constraints and maximising the objective line.
