@@ -1,0 +1,5 @@
+We need to sell shares and get 10000 while maximising stock profile for next year.
+
+pay 30% of profit and pay 1% of amount sold for as taxes.
+
+We need 8 variable, number of shares sold in each of the 8 companies.
